@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net;
 using System.Xml.Serialization;
-
+using PractProj1.ServiceReference1;
 
 namespace PractProj1
 {
@@ -19,13 +19,10 @@ namespace PractProj1
         public Form1()
         {
             InitializeComponent();
-            Label newLabel = new Label();
-            Controls.Add(newLabel);
-            newLabel.Text = "MyText";
-            newLabel.Visible = true;
-            newLabel.Location = new Point(200, 250);
+            
         }
-
+        public DateTime GetDateRangeBegin;
+        public DateTime GetDateRangeEnd;
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -48,10 +45,14 @@ namespace PractProj1
                 //    xsav.Serialize(sw, html);
                 //}
 
-                FileStream file = new FileStream("data.xaml", FileMode.Create, FileAccess.ReadWrite);
-                StreamWriter wData = new StreamWriter(file);
-                wData.Write(html);
-                wData.Close();
+                //FileStream file = new FileStream("data.xaml", FileMode.Create, FileAccess.ReadWrite);
+                //StreamWriter wData = new StreamWriter(file);
+                //wData.Write(html);
+                //wData.Close();
+                ServiceReference1.DailyInfoSoapClient scr = new DailyInfoSoapClient();
+                DataSet ds = scr.GetCursOnDate(DateTime.Now.Date);
+                dataGridView1.DataSource = ds.Tables[0];
+
             }
             catch
             {
@@ -98,6 +99,18 @@ namespace PractProj1
                 //dataGridView1.Rows.Add(LoadSer.Valute[i].Value);
                 //dataGridView1.Rows[i].Cells[i].Value = LoadSer.Valute[i].;
             }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            GetDateRangeBegin = dateTimePicker1.Value;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ServiceReference1.DailyInfoSoapClient scr = new DailyInfoSoapClient();
+            DataSet ds = scr.GetCursOnDate(GetDateRangeBegin);
+            dataGridView1.DataSource = ds.Tables[0];
         }
     }
 }
