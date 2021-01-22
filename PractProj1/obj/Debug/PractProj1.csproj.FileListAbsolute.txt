@@ -1,0 +1,10 @@
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\bin\Debug\PractProj1.exe.config
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\bin\Debug\PractProj1.exe
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\bin\Debug\PractProj1.pdb
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\obj\Debug\PractProj1.csprojAssemblyReference.cache
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\obj\Debug\PractProj1.Form1.resources
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\obj\Debug\PractProj1.Properties.Resources.resources
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\obj\Debug\PractProj1.csproj.GenerateResource.cache
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\obj\Debug\PractProj1.csproj.CoreCompileInputs.cache
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\obj\Debug\PractProj1.exe
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\obj\Debug\PractProj1.pdb
