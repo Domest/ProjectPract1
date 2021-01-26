@@ -19,10 +19,10 @@ namespace PractProj1
         public Form1()
         {
             InitializeComponent();
-            
         }
         public DateTime GetDateRangeBegin;
         public DateTime GetDateRangeEnd;
+        public RBKSendList rsl = new RBKSendList();
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -30,13 +30,13 @@ namespace PractProj1
                 string html;
                 string url = "http://www.cbr.ru/scripts/XML_daily.asp";
 
-                WebClient web = new WebClient();
-                web.Encoding = Encoding.GetEncoding(1251);
-                Stream data = web.OpenRead(url);
-                StreamReader reader = new StreamReader(data, Encoding.GetEncoding(1251));
-                html = reader.ReadLine();
-                data.Close();
-                reader.Close();
+                //WebClient web = new WebClient();
+                //web.Encoding = Encoding.GetEncoding(1251);
+                //Stream data = web.OpenRead(url);
+                //StreamReader reader = new StreamReader(data, Encoding.GetEncoding(1251));
+                //html = reader.ReadLine();
+                //data.Close();
+                //reader.Close();
 
                 //XmlSerializer xsav = new XmlSerializer(typeof(ValCursValute));
                 //string WritePath = System.IO.Path.Combine(Environment.CurrentDirectory);
@@ -49,14 +49,37 @@ namespace PractProj1
                 //StreamWriter wData = new StreamWriter(file);
                 //wData.Write(html);
                 //wData.Close();
+
                 ServiceReference1.DailyInfoSoapClient scr = new DailyInfoSoapClient();
                 DataSet ds = scr.GetCursOnDate(DateTime.Now.Date);
                 dataGridView1.DataSource = ds.Tables[0];
 
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    rsl.SendList.Add(new SendModel()
+                    {
+                        Name = ds.Tables[0].Rows[i].ItemArray[0].ToString(),
+                        Nominal = ds.Tables[0].Rows[i].ItemArray[1].ToString(),
+                        Value = ds.Tables[0].Rows[i].ItemArray[2].ToString(),
+                        NumCode = ds.Tables[0].Rows[i].ItemArray[3].ToString(),
+                        CharCode = ds.Tables[0].Rows[i].ItemArray[4].ToString()
+                    });
+                }
+                
+
+                //for(int i = 0; i < ds.Tables.Count; i++)
+                //{
+                //    rsl.SendList.Add(new SendModel() { Name = ds.Tables.});
+                //}
+
+                //var dt = new DataTable(); 
+                //dt = (DataTable)dataGridView1.DataSource;
+                //rsl.SendList.Add(new SendModel() { Name = dt.Rows[0].ItemArray[0].ToString() });
+
             }
             catch
             {
-                MessageBox.Show("Данные не получены.");
+                MessageBox.Show("Данные не получены");
             }
 
             //RBKServise.DailyInfo di = new RBKServise.DailyInfo();
@@ -108,9 +131,12 @@ namespace PractProj1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ServiceReference1.DailyInfoSoapClient scr = new DailyInfoSoapClient();
-            DataSet ds = scr.GetCursOnDate(GetDateRangeBegin);
-            dataGridView1.DataSource = ds.Tables[0];
+            //ServiceReference1.DailyInfoSoapClient scr = new DailyInfoSoapClient();
+            //DataSet ds = scr.GetCursOnDate(GetDateRangeBegin);
+            //dataGridView1.DataSource = ds.Tables[0];
+
+            var dt = new DataTable();
+            dt = (DataTable)dataGridView1.DataSource;
         }
     }
 }
