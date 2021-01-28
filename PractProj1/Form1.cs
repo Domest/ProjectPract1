@@ -35,8 +35,8 @@ namespace PractProj1
         string UrlBase = "https://www.cbr.ru/scripts/XML_daily.asp?date_req=";
         private void button1_Click(object sender, EventArgs e)
         {
-            //try
-            //{
+            try
+            {
                 string html;
                 string url = "http://www.cbr.ru/scripts/XML_daily.asp";
 
@@ -68,36 +68,51 @@ namespace PractProj1
 
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
-                    rsl.SendList.Add(new SendModel()
+                    if (rsl.SendList != null)
                     {
-                        Name = ds.Tables[0].Rows[i].ItemArray[0].ToString(),
-                        Nominal = ds.Tables[0].Rows[i].ItemArray[1].ToString(),
-                        Value = ds.Tables[0].Rows[i].ItemArray[2].ToString(),
-                        NumCode = ds.Tables[0].Rows[i].ItemArray[3].ToString(),
-                        CharCode = ds.Tables[0].Rows[i].ItemArray[4].ToString()
-                    });
+                        rsl.SendList.Add(new SendModel()
+                        {
+                            Name = ds.Tables[0].Rows[i].ItemArray[0].ToString(),
+                            Nominal = ds.Tables[0].Rows[i].ItemArray[1].ToString(),
+                            Value = ds.Tables[0].Rows[i].ItemArray[2].ToString(),
+                            NumCode = ds.Tables[0].Rows[i].ItemArray[3].ToString(),
+                            CharCode = ds.Tables[0].Rows[i].ItemArray[4].ToString()
+                        });
+                    }
+                    else
+                    {
+                        rsl.SendList = new List<SendModel>();
+                        rsl.SendList.Add(new SendModel()
+                        {
+                            Name = ds.Tables[0].Rows[i].ItemArray[0].ToString(),
+                            Nominal = ds.Tables[0].Rows[i].ItemArray[1].ToString(),
+                            Value = ds.Tables[0].Rows[i].ItemArray[2].ToString(),
+                            NumCode = ds.Tables[0].Rows[i].ItemArray[3].ToString(),
+                            CharCode = ds.Tables[0].Rows[i].ItemArray[4].ToString()
+                        });
+                    }
                 }
-            //}
-            //catch
-            //{
-            //    MessageBox.Show("Данные не получены");
-            //}
+            }
+            catch
+            {
+                MessageBox.Show("Данные не получены");
+            }
 
-            //RBKServise.DailyInfo di = new RBKServise.DailyInfo();
+    //RBKServise.DailyInfo di = new RBKServise.DailyInfo();
 
-            //System.DateTime DateFrom, DateTo;
-            //DateFrom = dateTimePicker1.Value;
-            //DateTo = dateTimePicker2.Value;
+    //System.DateTime DateFrom, DateTo;
+    //DateFrom = dateTimePicker1.Value;
+    //DateTo = dateTimePicker2.Value;
 
-            ////Вызываем GetCursDynamic для получения таблицы с курсами заданной валютой
-            //DataSet Ds = (System.Data.DataSet)di.GetCursDynamic(DateFrom, DateTo, "R01235");
-            //Ds.Tables[0].Columns[0].ColumnName = "Дата";
-            //Ds.Tables[0].Columns[1].ColumnName = "Вн.код валюты";
-            //Ds.Tables[0].Columns[2].ColumnName = "Номинал";
-            //Ds.Tables[0].Columns[3].ColumnName = "Курс";
+    ////Вызываем GetCursDynamic для получения таблицы с курсами заданной валютой
+    //DataSet Ds = (System.Data.DataSet)di.GetCursDynamic(DateFrom, DateTo, "R01235");
+    //Ds.Tables[0].Columns[0].ColumnName = "Дата";
+    //Ds.Tables[0].Columns[1].ColumnName = "Вн.код валюты";
+    //Ds.Tables[0].Columns[2].ColumnName = "Номинал";
+    //Ds.Tables[0].Columns[3].ColumnName = "Курс";
 
-            //dataGrid1.SetDataBinding(Ds, "ValuteCursDynamic");
-        }
+    //dataGrid1.SetDataBinding(Ds, "ValuteCursDynamic");
+}
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -158,9 +173,17 @@ namespace PractProj1
             
             //GetDateRangeBegin.ToString("MM/dd/yyyy").Replace(".","/");
             string UrlBegin = UrlBase + GetDateRangeBegin.ToString("dd/MM/yyyy").Replace(".", "/");
+            GetDateRangeEnd = dateTimePicker2.Value;
             string UrlEnd = UrlBase + GetDateRangeEnd.ToString("dd/MM/yyyy").Replace(".", "/");
             LoadXMLData(UrlBegin, UrlEnd, true);
             dataGridView1.DataSource = rsl.SendList;
+            foreach (DataGridViewColumn dc in dataGridView1.Columns)
+            {
+                if (dc.ValueType == typeof(System.DateTime))
+                {
+                    dc.DefaultCellStyle.Format = "dd/MM/yyyy";
+                }
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -232,15 +255,15 @@ namespace PractProj1
             else
             {
                 DateTime CurrentTime = GetDateRangeBegin;
-                string CurrentUrl = UBegin; //"https://www.cbr.ru/scripts/XML_daily.asp?date_req=15/01/2021";
+                string CurrentUrl = UBegin;
+                rsl.SendList = null;
 
                 for (int i = 0; CurrentTime < GetDateRangeEnd; i++) //while(CurrentTime > GetDateRangeEnd) 
                 {
                     if (i > 0)
                     {
-                        //CurrentTime.AddDays(1d);
-                        
-                        CurrentUrl = UrlBase + CurrentTime.AddDays(1d).ToString("dd/MM/yyyy").Replace(".", "/");
+                        CurrentTime = CurrentTime.AddDays(1);
+                        CurrentUrl = UrlBase + CurrentTime.ToString("dd/MM/yyyy").Replace(".", "/");
                     }
                     WebClient web = new WebClient();
                     web.Encoding = Encoding.GetEncoding(1251);
@@ -263,24 +286,22 @@ namespace PractProj1
                         ValCurs ReadData = (ValCurs)xloa.Deserialize(sr);
                         LoadSer = ReadData;
                     }
-                    rsl.SendList = null;
+
                     foreach (ValCursValute v in LoadSer.Valute)
                     {
                         if (rsl.SendList != null)
                         {
                             if (SelectedValute == v.Name)
-                                rsl.SendList.Add(new SendModel() { Name = v.Name, Nominal = Convert.ToString(v.Nominal), Value = v.Value, NumCode = Convert.ToString(v.NumCode), CharCode = v.CharCode });
+                                rsl.SendList.Add(new SendModel() { Date = CurrentTime, Name = v.Name, Nominal = Convert.ToString(v.Nominal), Value = v.Value, NumCode = Convert.ToString(v.NumCode), CharCode = v.CharCode });
                         }
                         else
                         {
+
                             rsl.SendList = new List<SendModel>();
-                            rsl.SendList.Add(new SendModel() { Name = v.Name, Nominal = Convert.ToString(v.Nominal), Value = v.Value, NumCode = Convert.ToString(v.NumCode), CharCode = v.CharCode });
+                            rsl.SendList.Add(new SendModel() { Date = CurrentTime, Name = v.Name, Nominal = Convert.ToString(v.Nominal), Value = v.Value, NumCode = Convert.ToString(v.NumCode), CharCode = v.CharCode });
                         }
-                        
                     }
                 }
-                
-                
             }
         }
     }

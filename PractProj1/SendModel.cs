@@ -14,6 +14,7 @@ namespace PractProj1
         //public int ID { get; set; }
         [Key]
         public int ID { get; set; }
+        public DateTime Date { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
         public string Nominal { get; set; }
