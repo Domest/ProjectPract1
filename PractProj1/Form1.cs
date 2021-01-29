@@ -188,7 +188,7 @@ namespace PractProj1
 
                 ValCurs LoadSer;
                 XmlSerializer xloa = new XmlSerializer(typeof(ValCurs));
-                string f = @"C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\bin\Debug\data.xaml";
+                string f = System.IO.Path.Combine(Environment.CurrentDirectory, "data.xaml"); 
                 using (StreamReader sr = new StreamReader(f))
                 {
                     ValCurs ReadData = (ValCurs)xloa.Deserialize(sr);
