@@ -63,7 +63,7 @@ namespace PractProj1
                     {
                         rsl.SendList.Add(new SendModel()
                         {
-                            ID = i,
+                            //ID = i,
                             Name = ds.Tables[0].Rows[i].ItemArray[0].ToString(),
                             Date = DateTime.Now.Date,
                             Nominal = ds.Tables[0].Rows[i].ItemArray[1].ToString(),
@@ -149,8 +149,17 @@ namespace PractProj1
 
         private void button4_Click(object sender, EventArgs e)
         {
+            context = new DBContext();
             context.ParsData.Load();
-            var valutes = context.ParsData;
+
+            
+            //var valutes = context.ParsData;
+            //using (context)
+            //{
+            //    var GetValutes = context.ParsData.Include(x => x.ID).ToList();
+            //    rsl.SendList = GetValutes;
+            //}
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -241,7 +250,6 @@ namespace PractProj1
                         }
                         else
                         {
-
                             rsl.SendList = new List<SendModel>();
                             rsl.SendList.Add(new SendModel() { Date = CurrentTime, Name = v.Name, Nominal = Convert.ToString(v.Nominal), Value = v.Value, NumCode = Convert.ToString(v.NumCode), CharCode = v.CharCode });
                         }
