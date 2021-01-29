@@ -21,15 +21,16 @@ namespace PractProj1
         {
             InitializeComponent();
             LoadXMLData("", "", false);
-            comboBox1.DataSource = rsl.SendList;
             comboBox1.DisplayMember = "Name";
-            comboBox1.ValueMember = "Name";
+            comboBox1.ValueMember = "NumCode";
+            comboBox1.DataSource = cbl.CBList;
             dateTimePicker1_ValueChanged(dateTimePicker1, null);
             dateTimePicker2_ValueChanged(dateTimePicker2, null);
         }
         public DateTime GetDateRangeBegin;
         public DateTime GetDateRangeEnd;
         public RBKSendList rsl = new RBKSendList();
+        public ComboBoxList cbl = new ComboBoxList();
         DBContext context = new DBContext();
         public string SelectedValute;
         string UrlBase = "https://www.cbr.ru/scripts/XML_daily.asp?date_req=";
@@ -164,7 +165,16 @@ namespace PractProj1
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectedValute = rsl.SendList[comboBox1.SelectedIndex].Name;
+            //SelectedValute = rsl.SendList[comboBox1.SelectedIndex].Name;
+
+            foreach (ComboBoxModel sd in cbl.CBList)
+            {
+                if (sd.NumCode == Convert.ToString(comboBox1.SelectedValue))
+                {
+                    SelectedValute = sd.Name;
+                    break;
+                }
+            }
         }
 
         void LoadXMLData(string UBegin, string UEnd, bool IsRange)
@@ -196,13 +206,10 @@ namespace PractProj1
                 }
                 for (int i = 0; i < LoadSer.Valute.Length - 1; i++)
                 {
-                    rsl.SendList.Add(new SendModel()
+                    cbl.CBList.Add(new ComboBoxModel()
                     {
-                        Name = LoadSer.Valute[i].Name,
-                        Value = LoadSer.Valute[i].Value,
                         NumCode = Convert.ToString(LoadSer.Valute[i].NumCode),
-                        CharCode = LoadSer.Valute[i].CharCode,
-                        Nominal = Convert.ToString(LoadSer.Valute[i].Nominal)
+                        Name = LoadSer.Valute[i].Name
                     });
                 }
             }
@@ -246,12 +253,19 @@ namespace PractProj1
                         if (rsl.SendList != null)
                         {
                             if (SelectedValute == v.Name)
+                            {
                                 rsl.SendList.Add(new SendModel() { Date = CurrentTime, Name = v.Name, Nominal = Convert.ToString(v.Nominal), Value = v.Value, NumCode = Convert.ToString(v.NumCode), CharCode = v.CharCode });
+                                break;
+                            }
+                                
                         }
                         else
                         {
                             rsl.SendList = new List<SendModel>();
-                            rsl.SendList.Add(new SendModel() { Date = CurrentTime, Name = v.Name, Nominal = Convert.ToString(v.Nominal), Value = v.Value, NumCode = Convert.ToString(v.NumCode), CharCode = v.CharCode });
+                            if (SelectedValute == v.Name)
+                            {
+                                rsl.SendList.Add(new SendModel() { Date = CurrentTime, Name = v.Name, Nominal = Convert.ToString(v.Nominal), Value = v.Value, NumCode = Convert.ToString(v.NumCode), CharCode = v.CharCode });
+                            }
                         }
                     }
                 }
