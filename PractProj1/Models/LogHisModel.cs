@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PractProj1.Models
 {
@@ -14,7 +10,6 @@ namespace PractProj1.Models
             LogType = logtype;
             LogTime = logtime;
         }
-        
         public string Name { get; set; }
         public string LogType { get; set; }
         public DateTime LogTime { get; set; }

@@ -39,7 +39,6 @@ namespace PractProj1
                 LoggerProc.logger.Error("Ошибка инициализации. " + e);
                 AddLogToHistory("Ошибка инициализации. " + e, true);
             }
-            
         }
         LoggerProc log = new LoggerProc();
         DateTime GetDateRangeBegin;
