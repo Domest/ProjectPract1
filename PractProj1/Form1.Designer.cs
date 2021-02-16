@@ -38,6 +38,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.History = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -75,7 +76,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(218, 12);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(570, 426);
+            this.dataGridView1.Size = new System.Drawing.Size(746, 426);
             this.dataGridView1.TabIndex = 4;
             // 
             // dateTimePicker1
@@ -131,11 +132,22 @@
             this.comboBox1.TabIndex = 10;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
+            // History
+            // 
+            this.History.Location = new System.Drawing.Point(12, 50);
+            this.History.Name = "History";
+            this.History.Size = new System.Drawing.Size(83, 52);
+            this.History.TabIndex = 11;
+            this.History.Text = "Журнал действий";
+            this.History.UseVisualStyleBackColor = true;
+            this.History.Click += new System.EventHandler(this.History_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(976, 450);
+            this.Controls.Add(this.History);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -166,6 +178,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button History;
     }
 }
 

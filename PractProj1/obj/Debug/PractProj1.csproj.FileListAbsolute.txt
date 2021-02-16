@@ -13,3 +13,7 @@ C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\bin\Debug\EntityFramewor
 C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\bin\Debug\EntityFramework.xml
 C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\obj\Debug\PractProj1.csproj.CopyComplete
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\bin\Debug\NLog.config
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\bin\Debug\NLog.dll
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\bin\Debug\NLog.xml
+C:\Users\Demid\Desktop\GitProj\ProjectPract1\PractProj1\obj\Debug\PractProj1.LogHistoryForm.resources
